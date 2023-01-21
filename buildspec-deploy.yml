@@ -1,0 +1,25 @@
+version: 0.2
+env:
+  variables:
+    ECR_REPOSITORY_NAME: "kloudpod-java-webapp"
+    ACCOUNT_ID: "853232536111"
+    REGION: "us-east-1"
+phases:
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - aws ecr get-login-password --region $REGION | docker login --username AWS --password-stdin $ACCOUNT_ID.dkr.ecr.$REGION.amazonaws.com
+      - REPOSITORY_URI=$ACCOUNT_ID.dkr.ecr.$REGION.amazonaws.com/$ECR_REPOSITORY_NAME
+  build:
+    commands:
+      - echo Build started on `date`
+      - echo Building the Docker image...
+      - echo $ACCOUNT_ID
+      - echo $REGION
+      - docker build -t $REPOSITORY_URI:latest .
+      - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:latest
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - echo Pushing the Docker image...
+      - docker push $REPOSITORY_URI:latest

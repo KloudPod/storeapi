@@ -1,0 +1,20 @@
+package com.kloudpod.storeapi.config;
+
+import io.swagger.v3.oas.models.Components;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.info.License;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class OpenApiConfig {
+    @Bean
+    public OpenAPI customOpenAPI() {
+        return new OpenAPI()
+                .components(new Components())
+                .info(new Info().title("Webstore API")
+                        .description("Webstore Information System")
+                        .license(new License().name("Kloudpod").url("https://kloudpod.com/")));
+    }
+}
